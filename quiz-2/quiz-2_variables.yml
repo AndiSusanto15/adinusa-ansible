@@ -1,0 +1,35 @@
+---
+- hosts: all
+  become: yes
+  remote_user: student
+  vars:
+    required_Pkg:
+      - apache2
+      - python3-urllib3
+    web_Service: apache2
+    content_File: "adinusa lab quiz variables - batutahid"
+    dest_File: /var/www/html/index.html
+
+  tasks:
+    - name: Install required packages
+      apt:
+        name: "{{ required_Pkg }}"
+        state: latest
+
+    - name: Ensure services are started and enabled
+      systemd:
+        name: "{{ web_Service }}"
+        state: started
+        enabled: yes
+
+    - name: ensures specific content exists in pod-batutahid-managed2
+      copy:
+        content: "{{ content_File }}"
+        dest: "{{ dest_File }}"
+
+- hosts: localhost
+  tasks:
+    - name: Check web server
+      uri:
+        url: http://pod-batutahid-managed2/index.html
+        status_code: 200

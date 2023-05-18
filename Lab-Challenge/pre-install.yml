@@ -1,0 +1,51 @@
+---
+- hosts: pod-batutahid-controller
+  become: yes
+  tasks:
+    - name: install several packages
+      apt:
+        name:
+          - npm
+          - nodejs
+          - git
+          - pwgen
+          - unzip
+          - python3-virtualenv
+          - python3-pip
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository: repo="deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu jammy stable" state=present
+
+    - name: Instal docker package
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - docker-compose-plugin
+        state: present
+
+    - name: Ensure docker is started and enabled
+      service:
+        name: docker
+        state: started
+
+    - name: Add student user to docker group
+      user:
+        name: student
+        groups: docker
+        append: yes
+
+    - pip:
+        name: docker-compose
+        executable: pip3
+
+    - name: Download AWX package
+      get_url:
+        url: https://codeload.github.com/ansible/awx/zip/refs/tags/17.1.0
+        dest: /tmp/awx-17.1.0.zip
+
+    - name: Unzip /tmp/awx-17.1.0.zip
+      unarchive:
+        src: /tmp/awx-17.1.0.zip
+        dest: /tmp

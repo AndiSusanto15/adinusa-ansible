@@ -1,0 +1,11 @@
+user_list:
+  - name: Andi Batutah Admin
+    username: root
+    password: adinusa88
+    access: ALL
+    role: dbadmin
+  - name: Andi Batutah User
+    username: batutahid
+    password: adinusa88
+    access: SELECT
+    role: dbuser

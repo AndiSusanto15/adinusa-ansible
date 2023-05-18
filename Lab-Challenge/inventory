@@ -1,0 +1,6 @@
+pod-batutahid-controller
+
+[all:vars]
+project_data_dir=/home/student
+admin_user=admin
+admin_password=rahasia

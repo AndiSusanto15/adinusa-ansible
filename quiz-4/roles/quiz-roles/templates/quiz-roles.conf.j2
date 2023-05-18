@@ -1,0 +1,13 @@
+<VirtualHost *:80>
+    ServerAdmin webmaster@quiz-roles.batutahid
+    ServerName quiz-roles.batutahid
+    ErrorLog /var/log/apache2/quiz-roles.batutahid-error.log
+    CustomLog /var/log/apache2/quiz-roles.batutahid-common.log common
+    DocumentRoot /var/www/quiz-roles/{{ ansible_hostname }}/
+
+    <Directory /var/www/quiz-roles/{{ ansible_hostname }}/>
+        Options +Indexes +FollowSymlinks +Includes
+        Order allow,deny
+        Allow from all
+    </Directory>
+</VirtualHost>
